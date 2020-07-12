@@ -17,7 +17,11 @@ from django.contrib import admin
 from django.urls import path
 import appname.views
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', appname.views.main, name='main'),
-]
+    path('create', appname.views.create, name='create')
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
