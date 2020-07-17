@@ -26,4 +26,4 @@ urlpatterns = [
     path('create', appname.views.create, name='create'),
     path('update/<int:pk>', appname.views.update, name='update'),
     path('delete/<int:pk>', appname.views.delete, name='delete'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
