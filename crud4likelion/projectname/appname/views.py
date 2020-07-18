@@ -9,7 +9,7 @@ def main(request):
 
 def create(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form = form.save(commit=False)
             form.save()
@@ -37,5 +37,3 @@ def delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('main')
-
-    
