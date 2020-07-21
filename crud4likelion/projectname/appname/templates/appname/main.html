@@ -7,6 +7,13 @@
       <h1 class="masthead-heading mb-0">myinstagram</h1>
       <h2 class="masthead-subheading mb-0">hello likelion 8th</h2>
       <a href="/create" class="btn btn-primary btn-xl rounded-pill mt-5">write a post</a>
+      
+      <form method="POST" action="/signin">
+        {% csrf_token %}
+        {{ signin_form.as_p }}
+        <input type="submit" value="submit">
+      </form>
+
     </div>
   </div>
   <div class="bg-circle-1 bg-circle"></div>
