@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
-from .forms import PostForm, SigninForm
+from .forms import PostForm, SigninForm, UserForm
 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
@@ -54,3 +54,16 @@ def signin(request):
             return redirect('main')
         else:
             return HttpResponse("로그인 실패. 다시 시도해보세요 ㅋ")
+
+def signup(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            new_user = User.objects.create_user(username=form.cleaned_data['username'],
+            email=form.cleaned_data['email'],
+            password=form.cleaned_data['password'])
+            login(request, new_user)
+            return redirect('main')
+    else:
+        form = UserForm()
+        return render(request, 'appname/signup.html', {'form': form})

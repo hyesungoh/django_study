@@ -27,5 +27,6 @@ urlpatterns = [
     path('update/<int:pk>', appname.views.update, name='update'),
     path('delete/<int:pk>', appname.views.delete, name='delete'),
     path('signin', appname.views.signin, name='signin'),
+    path('signup', appname.views.signup, name='signup'),
     path('', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
