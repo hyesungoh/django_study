@@ -1,6 +1,7 @@
 from django import forms
-from .models import Post
-from django.contrib.auth.models import User
+from .models import Post, CustomUser
+
+# from django.contrib.auth.models import User
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -9,10 +10,10 @@ class PostForm(forms.ModelForm):
 
 class SigninForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'password']
 
 class UserForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = CustomUser
+        fields = ['username', 'email', 'password', 'nickname', 'phone_number']
