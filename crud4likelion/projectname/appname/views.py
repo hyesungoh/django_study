@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, CustomUser
-from .forms import PostForm, SigninForm, UserForm
+from .forms import PostForm, SigninForm, UserForm, CommentForm
 
 # from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
@@ -10,7 +10,9 @@ from django.http import HttpResponse
 def main(request):
     posts = Post.objects.all()
     signin_form = SigninForm()
-    return render(request, 'appname/main.html', {'posts': posts, 'signin_form': signin_form})
+    comment_form = CommentForm()
+    return render(request, 'appname/main.html', {'posts': posts, 'signin_form': signin_form,
+    'comment_form': comment_form})
 
 def create(request):
     if request.method == "POST":
@@ -42,6 +44,17 @@ def delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.delete()
     return redirect('main')
+
+def comment(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post_id = post
+            comment.text = form.cleaned_data['text']
+            comment.save()
+            return redirect('main')
 
 def signin(request):
     if request.method == "POST":

@@ -35,27 +35,6 @@
 
 {% block content %}
 {% load static %}
-<h1> This is MAIN </h1>
-
-
-
-<section>
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <div class="p-5">
-          <img class="img-fluid rounded-circle" src="img/02.jpg" alt="">
-        </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="p-5">
-          <h2 class="display-4">We salute you!</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 {% for post in posts %}
 <section>
@@ -69,12 +48,24 @@
         </div>
       </div>
       <div class="col-lg-6 order-lg-1">
+
         <div class="p-5">
           <h2 class="display-4">{{post.title}}</h2>
           <p>{{post.content}}</p>
           <a href="{% url 'update' pk=post.pk %}"> 수정하기 </a>
           <a href="{% url 'delete' pk=post.pk %}"> 삭제하기 </a>
         </div>
+
+        <form method="POST" action='/comment/{{ post.id }}'>
+          {% csrf_token %}
+          {{ comment_form.as_p }}
+          <input type="submit" value="submit">
+        </form>
+
+        {% for comment in post.comments.all %}
+          <p>{{ comment.text }}</p>
+        {% endfor %}
+
       </div>
     </div>
   </div>
