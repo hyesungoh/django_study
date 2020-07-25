@@ -50,6 +50,7 @@
       <div class="col-lg-6 order-lg-1">
 
         <div class="p-5">
+          <h4 class="display-6">{{ post.writer }}</h4>
           <h2 class="display-4">{{post.title}}</h2>
           <p>{{post.content}}</p>
           <a href="{% url 'update' pk=post.pk %}"> 수정하기 </a>
@@ -63,7 +64,7 @@
         </form>
 
         {% for comment in post.comments.all %}
-          <p>{{ comment.text }}</p>
+          <p>{{ comment.c_writer }} : {{ comment.text }}</p>
         {% endfor %}
 
       </div>

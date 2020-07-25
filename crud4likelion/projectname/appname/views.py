@@ -15,10 +15,14 @@ def main(request):
     'comment_form': comment_form})
 
 def create(request):
+    if not request.user.is_active:
+        return HttpResponse("You can write a post with SIGNIN")
+
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             form = form.save(commit=False)
+            form.writer = request.user
             form.save()
             return redirect('main')
     else:
@@ -46,11 +50,15 @@ def delete(request, pk):
     return redirect('main')
 
 def comment(request, post_id):
+    if not request.user.is_active:
+        return HttpResponse("You can write a post with SIGNIN")
+
     post = get_object_or_404(Post, id=post_id)
     if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.c_writer = request.user
             comment.post_id = post
             comment.text = form.cleaned_data['text']
             comment.save()
