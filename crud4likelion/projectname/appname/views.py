@@ -16,7 +16,7 @@ def main(request):
 
 def create(request):
     if not request.user.is_active:
-        return HttpResponse("You can write a post with SIGNIN")
+        return HttpResponse("Can't wirte a post without Sign In")
 
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
@@ -51,7 +51,7 @@ def delete(request, pk):
 
 def comment(request, post_id):
     if not request.user.is_active:
-        return HttpResponse("You can write a post with SIGNIN")
+        return HttpResponse("Can't wirte a comment without Sign In")
 
     post = get_object_or_404(Post, id=post_id)
     if request.method == "POST":
