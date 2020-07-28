@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, CustomUser
-from .forms import PostForm, SigninForm, UserForm, CommentForm
+from .models import Post, CustomUser, Hashtag
+from .forms import PostForm, SigninForm, UserForm, CommentForm, HashtagForm
 
 # from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
@@ -21,9 +21,25 @@ def create(request):
     if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
-            form = form.save(commit=False)
-            form.writer = request.user
-            form.save()
+            post = form.save(commit=False)
+            post.writer = request.user
+
+            hashtag_field = form.cleaned_data['hashtag_field']
+            str_hashtags = hashtag_field.split('#')
+            list_hashtags = list()
+
+            for hashtag in str_hashtags:
+            # 이미 만들어진 해시태그인지 검사
+                if Hashtag.objects.filter(name=hashtag):
+                    list_hashtags.append(Hashtag.objects.get(name=hashtag))
+                else:
+                    temp_hashtag = HashtagForm().save(commit=False)
+                    temp_hashtag.name = hashtag
+                    temp_hashtag.save()
+                    list_hashtags.append(temp_hashtag)
+
+            post.save()
+            post.hashtags.add(*list_hashtags)
             return redirect('main')
     else:
         form = PostForm()
