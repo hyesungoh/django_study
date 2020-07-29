@@ -29,7 +29,6 @@ def create(request):
             list_hashtags = list()
 
             for hashtag in str_hashtags:
-            # 이미 만들어진 해시태그인지 검사
                 if Hashtag.objects.filter(name=hashtag):
                     list_hashtags.append(Hashtag.objects.get(name=hashtag))
                 else:
