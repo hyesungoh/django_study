@@ -40,6 +40,7 @@ def create(request):
 
             post.save()
             post.hashtags.add(*list_hashtags)
+            # form.save_m2m()
             return redirect('main')
     else:
         form = PostForm()
@@ -106,3 +107,7 @@ def signup(request):
     else:
         form = UserForm()
         return render(request, 'appname/signup.html', {'form': form})
+
+def hashtag(request, hashtag_name):
+    hashtag = get_object_or_404(Hashtag, name=hashtag_name)
+    return render(request, 'appname/hashtag.html', {'hashtag': hashtag})

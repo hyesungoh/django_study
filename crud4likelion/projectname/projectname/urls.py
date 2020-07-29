@@ -29,6 +29,7 @@ urlpatterns = [
     path('signin', appname.views.signin, name='signin'),
     path('signup', appname.views.signup, name='signup'),
     path('comment/<int:post_id>', appname.views.comment, name='comment'),
+    path('hashtag/<str:hashtag_name>', appname.views.hashtag, name='hashtag'),
 
     path('', include('django.contrib.auth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

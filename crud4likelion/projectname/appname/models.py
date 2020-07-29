@@ -16,6 +16,12 @@ class Post(models.Model):
     hashtag_field = models.CharField(max_length=200, blank=True)
     hashtags = models.ManyToManyField('Hashtag', blank=True)
 
+class Hashtag(models.Model):
+    def __str__(self):
+        return self.name
+
+    name = models.CharField(max_length=50)
+
 class Comment(models.Model):
     def __str__(self):
         return self.text
@@ -23,12 +29,6 @@ class Comment(models.Model):
     c_writer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="c_writer", default="")
     post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     text = models.CharField(max_length=50)
-
-class Hashtag(models.Model):
-    def __str__(self):
-        return self.name
-
-    name = models.CharField(max_length=50)
 
 class CustomUser(AbstractUser):
     def __str__(self):
