@@ -110,3 +110,17 @@ def signup(request):
 def hashtag(request, hashtag_name):
     hashtag = get_object_or_404(Hashtag, name=hashtag_name)
     return render(request, 'appname/hashtag.html', {'hashtag': hashtag})
+
+def like(request, pk):
+    if not request.user.is_active:
+        return HttpResponse('First SignIn please')
+
+    post = get_object_or_404(Post, pk=pk)
+    user = request.user
+
+    if post.likes.filter(id=user.id).exists():
+        post.likes.remove(user)
+    else:
+        post.likes.add(user)
+
+    return redirect('main')
