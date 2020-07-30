@@ -56,7 +56,7 @@
 
           <span>
           {% for hashtag in post.hashtags.all %}
-            {{ hashtag.name }}
+            <a href="/hashtag/{{ hashtag.name }}">{{ hashtag.name }}</a>
           {% endfor %}
           </<span>
           <br>
