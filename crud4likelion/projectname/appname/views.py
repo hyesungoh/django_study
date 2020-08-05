@@ -29,11 +29,13 @@ def create(request):
             list_hashtags = list()
 
             for hashtag in str_hashtags:
+                # hashtag = hashtag.strip()
                 if Hashtag.objects.filter(name=hashtag):
                     list_hashtags.append(Hashtag.objects.get(name=hashtag))
                 else:
                     temp_hashtag = HashtagForm().save(commit=False)
                     temp_hashtag.name = hashtag
+
                     temp_hashtag.save()
                     list_hashtags.append(temp_hashtag)
 
